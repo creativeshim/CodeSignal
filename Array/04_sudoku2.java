@@ -14,6 +14,12 @@ public class Main {
         System.out.println(ans);
 
     }
+
+    /**
+     * solvable sudoku check function
+     * 가로, 세로, 3x3 방식으로 전부 체크 후
+     * 모두 true 일 때 true, 하나라도 false라면 false return.
+     */
     public static boolean sudoku2(char[][] grid) {
         boolean garo = garo(grid);
         boolean sero = sero(grid);
@@ -31,6 +37,13 @@ public class Main {
             return false;
         }
     }
+
+    /**
+     * boolean garo function
+     * 가로줄 검색
+     * 모든 가로줄을 검색해서 visited[9] 배열에 각 숫자별 배열에 카운트, 카운트가 2 이상일 때 false return.
+     * O(N^2)
+     */
     public static boolean garo(char[][] grid){
         boolean solvable = false;
         for(int i=0; i<9; i++){
@@ -55,15 +68,17 @@ public class Main {
         }
         return solvable;
     }
-
+    /**
+     * boolean garo function
+     * 세로줄 검색
+     * 모든 세로줄을 검색해서 visited[9] 배열에 각 숫자별 배열에 카운트, 카운트가 2 이상일 때 false return.
+     * O(N^2)
+     */
     public static boolean sero(char[][] grid){
         boolean solvable = false;
         for(int i=0; i<9; i++){
             int[] visited = new int[9];
             for(int j=0; j<9; j++){
-                if(i==3 && j==0){
-                    System.out.println("BP");
-                }
                 char pick = grid[j][i];
                 if(pick != '.'){
                     visited[pick-'0'-1] = visited[pick-'0'-1] + 1;
@@ -84,14 +99,19 @@ public class Main {
         return solvable;
     }
 
+    /**
+     * boolean section function
+     * 3x3 구간 별로 탐색
+     * 각 3x3 구간내의 배열을 검색해서 visited[9] 배열에 각 숫자별 배열에 카운트, 카운트가 2 이상일 때 false return.     *
+     * O(N^2)
+     * x축을 3등분 해서 각 섹션별 max값 추출 :3,6,9 -> 2,5,8
+     * 검색 범위가 3x3 이기 때문에 굳이 배열 숫자를 기준으로 3을 계산할 필요 없이 단순 cnt가 3이 될때까지 검색(while)
+     */
     public static boolean section(char[][] grid, int section){
 
         int max = section-1; //3,6,9 -> 2,5,8
         boolean solvable = false;
         for(int i=1; i<=3; i++){
-            if(i==1 && max==2){
-                System.out.println("");
-            }
             int times = i*3 - 3;
             int cnt = 0;
             int[] visited = new int[9];
